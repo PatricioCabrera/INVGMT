@@ -48,6 +48,7 @@
     <Compile Include="App\Menu.cs" />
     <Compile Include="Entity\Desktops.cs" />
     <Compile Include="Entity\Devices.cs" />
+    <Compile Include="Entity\IDevices.cs" />
     <Compile Include="Entity\Notebooks.cs" />
     <Compile Include="Entity\Users.cs" />
     <Compile Include="Program.cs" />

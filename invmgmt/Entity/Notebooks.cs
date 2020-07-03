@@ -20,20 +20,35 @@ namespace invmgmt.Entity
         Lenovo
     }
 
-    public class Notebooks : Devices
+    public class Notebook : Devices, IDevices
     {
         public NotebookModels Model { get; set; }
         public NotebookBrands Brand { get; set; }
-        public Notebooks(NotebookModels m, NotebookBrands b, string sn) : base ( sn)
+        public User User { get; set; }
+        public Notebook(NotebookModels m, NotebookBrands b, string sn) : base ( sn)
         {
             Model = m;
             Brand = b;
             Serial = sn;
         }
+        public Notebook() : base()
+        {
 
+        }
+        public void ReturnAvailableBrands()
+        {
+            foreach ( int i in Enum.GetValues(typeof( NotebookBrands )) )
+                Console.WriteLine(i);
+        }
         public override string ToString()
         {
             return $"{Model},{Brand},{Serial}, {UniqueID}";
+        }
+
+        public void ReturnAvailableModels()
+        {
+            foreach (int i in Enum.GetValues(typeof(NotebookModels) ))
+                Console.WriteLine(i);
         }
     }
 }

@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace invmgmt.Entity
 {
-    public class Users
+    public class User
     {
         public string Name { get; set; }
         public string LastName { get; set; }
         public string UniqueID { get; set; }
-        public Notebooks Notebook { get; set; }
-        public Desktops Desktop { get; set; }
-        public List<Notebooks> ListNotebook{get; set;}
-        public List<Desktops> ListDesktop { get; set; }
+        public Notebook Notebook { get; set; }
+        public Desktop Desktop { get; set; }
+        public List<Notebook> ListNotebook{get; set;}
+        public List<Desktop> ListDesktop { get; set; }
 
-        public Users(string n, string l)
+        public User(string n, string l)
         {
             Name = n;
             LastName = l;

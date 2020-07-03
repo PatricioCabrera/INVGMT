@@ -9,18 +9,41 @@ namespace invmgmt.Entity
     public enum DesktopBrands
     {
         ASUS,
-        Bangho,
+        Acer,
         Lenovo
     }
 
-    public class Desktops : Devices
+    public enum DesktopModels
+    {
+        WorkStation,
+        Compacta,
+        Micro
+    }
+
+    public class Desktop : Devices, IDevices
     {
         public DesktopBrands Brand { get; set; }
-        public Desktops(DesktopBrands b, string s) : base(s)
+        public DesktopModels Model { get; set; }
+        public User User { get; set; }
+        public Desktop(DesktopBrands b, string s) : base(s)
         {
             Brand = b;
             Serial = s;
         }
+        public Desktop() : base()
+        {
+        }
 
+        public void ReturnAvailableBrands()
+        {
+            foreach (int i in Enum.GetValues(typeof(DesktopBrands)))
+                Console.WriteLine(i);
+        }
+
+        public void ReturnAvailableModels()
+        {
+            foreach (int i in Enum.GetValues(typeof(DesktopModels)))
+                Console.WriteLine(i);
+        }
     }
 }
