@@ -21,20 +21,32 @@ namespace invmgmt.App
             Functions.TurnOFF();
             Environment.Exit(0);
         }
+
         public static void LoadInitialUsers()
         {
+            IDevices[] arrayDevices = new IDevices[7];
+
             Notebook nb00 = new Notebook() { Brand = NotebookBrands.ASUS, Model = NotebookModels.ZenBook, Serial = "PFG564BHX" };
             Notebook nb01 = new Notebook() { Brand = NotebookBrands.Banghó, Model = NotebookModels.Bes, Serial = "GUI864B4K" };
             Notebook nb02 = new Notebook() { Brand = NotebookBrands.ASUS, Model = NotebookModels.ZenBook, Serial = "HFK542HGB" };
+            Notebook nb03 = new Notebook() { Brand = NotebookBrands.Lenovo, Model = NotebookModels.ThinkPad, Serial = "LKI8G4UY" };
+
+            Desktop dp00 = new Desktop() { Brand = DesktopBrands.Acer, Model = DesktopModels.Compacta, Serial = "ZHL83E6O" };
+            Desktop dp01 = new Desktop() { Brand = DesktopBrands.ASUS, Model = DesktopModels.WorkStation, Serial = "LKPR78U6" };
+            Desktop dp02 = new Desktop() { Brand = DesktopBrands.Lenovo, Model = DesktopModels.Micro, Serial = "OUIK45TH" };
 
             nb00.User = new User("Pepton", "Peptoso");
             nb01.User = new User("María", "Shakiltrufia");
             nb02.User = new User("Óscar", "Ornamental");
 
+            dp00.User = new User("Carlos","Loscar");
+
             devicesList.Add(nb00);
             devicesList.Add(nb01);
             devicesList.Add(nb02);
+
         }
+        
         public static void DebugDevices()
         {
             foreach (Notebook note in devicesList)
@@ -168,6 +180,11 @@ namespace invmgmt.App
             {
                 Functions.Error("No se pudo encontrar el número de serie");
             }
+        }
+
+        public static void AddDevice(bool isNotebook)
+        {
+
         }
     }
 }
