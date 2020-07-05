@@ -37,8 +37,12 @@ namespace invmgmt.Entity
         }
         public void ReturnAvailableBrands()
         {
-            foreach ( int i in Enum.GetValues(typeof( NotebookBrands )) )
-                Console.WriteLine(i);
+            int count = 0;
+            foreach ( string n in Enum.GetNames(typeof( NotebookBrands )))
+            {
+                Console.WriteLine( count +". " +n);
+                count++;
+            }
         }
         public override string ToString()
         {
@@ -47,8 +51,13 @@ namespace invmgmt.Entity
 
         public void ReturnAvailableModels()
         {
-            foreach (int i in Enum.GetValues(typeof(NotebookModels) ))
-                Console.WriteLine(i);
+            int count = 0;
+            foreach (string n in Enum.GetNames(typeof(NotebookModels)))
+            {
+                Console.WriteLine(count + ". " + n);
+                count++;
+            }
+
         }
     }
 }

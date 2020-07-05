@@ -5,3 +5,10 @@ C:\Users\Patricio\Desktop\Parcial2Structurada\Parcial2\invmgmt\bin\Debug\invmgmt
 C:\Users\Patricio\Desktop\Parcial2Structurada\Parcial2\invmgmt\obj\Debug\invmgmt.exe
 C:\Users\Patricio\Desktop\Parcial2Structurada\Parcial2\invmgmt\obj\Debug\invmgmt.pdb
 C:\Users\Patricio\Desktop\Parcial2Structurada\Parcial2\invmgmt\obj\Debug\invmgmt.csprojAssemblyReference.cache
+C:\Users\User\source\repos\INVMGMT\invmgmt\bin\Debug\invmgmt.exe.config
+C:\Users\User\source\repos\INVMGMT\invmgmt\bin\Debug\invmgmt.exe
+C:\Users\User\source\repos\INVMGMT\invmgmt\bin\Debug\invmgmt.pdb
+C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.csprojAssemblyReference.cache
+C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.exe
+C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.pdb

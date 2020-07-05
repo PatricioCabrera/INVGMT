@@ -96,6 +96,26 @@ namespace invmgmt.Util
 
         }
 
+        public static bool StayIn(string section)
+        {
+            string input;
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+            Console.WriteLine("\nDesea continuar en " + section.ToUpper() + "?\n");
+
+            PressAKey($"A", " para volver a " + section);
+            PressAKey($"B", " para volver al menú anterior");
+
+            input = Functions.ValidateYoN(Console.ReadLine());
+
+            if (input == "a")
+                return true;
+            else
+                return false;
+
+        }
+
         public static void Success(string message)
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -109,6 +129,15 @@ namespace invmgmt.Util
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.Beep(300, 500);
+            Console.ResetColor();
+        }
+
+        public static void Prompt(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine(message);
             Console.Beep(300, 500);
             Console.ResetColor();

@@ -11,7 +11,7 @@ namespace invmgmt
     {
         static void Main(string[] args)
         {
-            Engine.InitProgram();
+            Init.InitProgram();
             Console.ReadKey();
         }
     }

@@ -36,14 +36,22 @@ namespace invmgmt.Entity
 
         public void ReturnAvailableBrands()
         {
-            foreach (int i in Enum.GetValues(typeof(DesktopBrands)))
-                Console.WriteLine(i);
+            int count = 0;
+            foreach (string n in Enum.GetNames(typeof(DesktopBrands)))
+            {
+                Console.WriteLine(count + ". " + n);
+                count++;
+            }
         }
 
         public void ReturnAvailableModels()
         {
-            foreach (int i in Enum.GetValues(typeof(DesktopModels)))
-                Console.WriteLine(i);
+            int count = 0;
+            foreach (string n in Enum.GetNames(typeof(DesktopModels)))
+            {
+                Console.WriteLine(count + ". " + n);
+                count++;
+            }
         }
     }
 }
