@@ -379,6 +379,8 @@ namespace invmgmt.App
         public static void ShowModifyDevice()
         {
             List<IDevices> foundevices = new List<IDevices>();
+            List<Notebook> notebookFoundevices = new List<Notebook>();
+            List<Desktop> desktopFoundevices = new List<Desktop>();
             int posCount = 0;
             int response;
             string stResponse = "";
@@ -402,30 +404,22 @@ namespace invmgmt.App
                 {
                     Console.WriteLine($"{posCount + 1}. {nb.Brand} {nb.Model} {nb.Serial}");
                     posCount++;
+                    notebookFoundevices.Add(nb);
                 }
                 foreach (Desktop pc in foundevices.OfType<Desktop>())
                 {
                     Console.WriteLine($"{posCount + 1}. {pc.Brand} {pc.Model} {pc.Serial}");
                     posCount++;
+                    desktopFoundevices.Add(pc);
                 }
 
                 Int32.TryParse(Console.ReadLine(), out response);
                 while (response < 1 && response > posCount + 1)
                 {
-                    Console.Clear();
                     Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
 
                     Functions.Prompt("Seleccione el dispositivo a modificar");
-                    foreach (Notebook nb in foundevices.OfType<Notebook>())
-                    {
-                        Console.WriteLine($"{posCount + 1}. {nb.Brand} {nb.Model} {nb.Serial}"); 
-                        posCount++;
-                    }
-                    foreach (Desktop pc in foundevices.OfType<Desktop>())
-                    {
-                        Console.WriteLine($"{posCount + 1}. {pc.Brand} {pc.Model} {pc.Serial}"); 
-                        posCount++;
-                    }
+                    
 
                     Int32.TryParse(Console.ReadLine(), out response);
                 }

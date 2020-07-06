@@ -11,8 +11,6 @@ namespace invmgmt.Entity
         public string UniqueID { get; set; }
         public string Serial { get; set; }
 
-
-
         public Devices()
         {
             UniqueID = Guid.NewGuid().ToString();
