@@ -26,7 +26,7 @@ namespace invmgmt.App
                     break;
 
                 case 2:
-                    Engine.LookForDevice();
+                    Engine.ShowLookForDevices();
                     Functions.PressAnyKey();
                     break;
 
@@ -36,6 +36,8 @@ namespace invmgmt.App
                     break;
 
                 case 4:
+                    Engine.ShowModifyDevice();
+                    Functions.PressAnyKey();
                     break;
 
                 case 5:

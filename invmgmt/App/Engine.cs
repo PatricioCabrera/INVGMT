@@ -155,12 +155,18 @@ namespace invmgmt.App
             Functions.PressAnyKey();
         }
 
-        public static void LookForDevice()
+        public static void ShowLookForDevices()
         {
-            Functions.ShowTitle("Buscar por número de serie");
+            LookForDevices("número de serie");
+        }
+        public static List<IDevices> LookForDevices(string lookFor)
+        {
+            List<IDevices> foundDevices = new List<IDevices>();
             int count = 0;
+
             string sn;
-            Console.WriteLine("Ingrese el número de serie parcial o completo del dispositivo a buscar");
+            Functions.ShowTitle("Buscar por " + lookFor);
+            Functions.Prompt("Ingrese el "+lookFor+" parcial o completo del dispositivo a buscar");
             sn = Console.ReadLine();
             Console.Clear();
 
@@ -168,7 +174,7 @@ namespace invmgmt.App
             {
                 foreach (Notebook note in devicesList.OfType<Notebook>())
                 {
-                    if (note.Serial.Contains(sn))
+                    if (note.Serial.Contains(sn.ToUpper()))
                     {
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.BackgroundColor = ConsoleColor.Green;
@@ -180,9 +186,17 @@ namespace invmgmt.App
                         Console.Write("| {0, -8}  ", note.Brand);
                         Console.Write("| {0, -11}  ", note.Model);
                         Console.Write("| {0, -20} ", note.Serial);
-                        Console.Write("| {0, -10}{1, -10} ", note.User.Name, note.User.LastName);
+                        if (note.User != null)
+                        {
+                            Console.Write("| {0, -10}{1, -10} ", note.User.Name, note.User.LastName);
+                        }
+                        else
+                        {
+                            Console.Write("| {0, -10}{1, -10} ", "", "");
+                        }
                         Console.WriteLine();
                         count++;
+                        foundDevices.Add(note);
                         break;
                     }
                 }
@@ -191,7 +205,7 @@ namespace invmgmt.App
             {
                 foreach (Desktop pc in devicesList.OfType<Desktop>())
                 {
-                    if (pc.Serial.Contains(sn))
+                    if (pc.Serial.Contains(sn.ToUpper()))
                     {
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.BackgroundColor = ConsoleColor.Green;
@@ -203,17 +217,31 @@ namespace invmgmt.App
                         Console.Write("| {0, -8}  ", pc.Brand);
                         Console.Write("| {0, -11}  ", pc.Model);
                         Console.Write("| {0, -20} ", pc.Serial);
-                        Console.Write("| {0, -10}{1, -10} ", pc.User.Name, pc.User.LastName);
+                        if (pc.User != null)
+                        {
+                            Console.Write("| {0, -10}{1, -10} ", pc.User.Name, pc.User.LastName);
+                        }
+                        else
+                        {
+                            Console.Write("| {0, -10}{1, -10} ", "", "");
+                        }
                         Console.WriteLine();
                         count++;
+                        foundDevices.Add(pc);
                         break;
                     }
                 }
             }
             if (count == 0)
             {
-                Functions.Error("No se pudo encontrar el número de serie");
+                Functions.Error("No se pudo encontrar el " + lookFor);
             }
+            else if (count >= 1)
+            {
+                Functions.Success($"¡Se han encontrado {count} registros!");
+            }
+
+            return foundDevices;
         }
         public static void ShowAddDevice()
         {
@@ -348,7 +376,154 @@ namespace invmgmt.App
                     break;
             }
         }
-        
+        public static void ShowModifyDevice()
+        {
+            List<IDevices> foundevices = new List<IDevices>();
+            int posCount = 0;
+            int response;
+            string stResponse = "";
+            int devicePos;
+            Desktop dChosenDevice;
+            Notebook nChosenDevice;
+
+            foundevices = LookForDevices("Número de serie");
+            Functions.PressAnyKey();
+            Console.Clear();
+
+            if (foundevices.Count() == 0)
+            {
+                Functions.Error("No se encontró ningún dispositivo, y por lo tanto no hay nada que modificar");
+            }
+            else
+            {
+                Functions.ShowTitle("Modificar dispositivo");
+                Functions.Prompt("Seleccione el dispositivo a modificar");
+                foreach (Notebook nb in foundevices.OfType<Notebook>())
+                {
+                    Console.WriteLine($"{posCount + 1}. {nb.Brand} {nb.Model} {nb.Serial}");
+                    posCount++;
+                }
+                foreach (Desktop pc in foundevices.OfType<Desktop>())
+                {
+                    Console.WriteLine($"{posCount + 1}. {pc.Brand} {pc.Model} {pc.Serial}");
+                    posCount++;
+                }
+
+                Int32.TryParse(Console.ReadLine(), out response);
+                while (response < 1 && response > posCount + 1)
+                {
+                    Console.Clear();
+                    Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
+
+                    Functions.Prompt("Seleccione el dispositivo a modificar");
+                    foreach (Notebook nb in foundevices.OfType<Notebook>())
+                    {
+                        Console.WriteLine($"{posCount + 1}. {nb.Brand} {nb.Model} {nb.Serial}"); 
+                        posCount++;
+                    }
+                    foreach (Desktop pc in foundevices.OfType<Desktop>())
+                    {
+                        Console.WriteLine($"{posCount + 1}. {pc.Brand} {pc.Model} {pc.Serial}"); 
+                        posCount++;
+                    }
+
+                    Int32.TryParse(Console.ReadLine(), out response);
+                }
+                response -= 1;
+                devicePos = response;
+            
+                if (foundevices[response] is Notebook)
+                {
+                    nChosenDevice = (Notebook) foundevices[response];
+                    Console.Clear();
+                    Functions.Prompt("¿Desea modificar la marca de la Notebook? Y/N");
+                    if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
+                    {
+                        Console.Clear();
+                        Functions.ShowTitle("Modificar Notebook");
+                        nChosenDevice.ReturnAvailableBrands();
+
+                        Int32.TryParse(Console.ReadLine(), out response);
+                        while (response != 0 && response != 1 && response != 2)
+                        {
+                            Console.Clear();
+                            Functions.ShowTitle("Modificar Notebook");
+
+                            Functions.Error("El valor ingresado es inválido, por favor, provea un dato válido");
+                            Functions.Prompt("Seleccione la marca de la Notebook");
+                            nChosenDevice.ReturnAvailableBrands();
+                            Int32.TryParse(Console.ReadLine(), out response);
+                        }
+                        nChosenDevice.Brand = (NotebookBrands)response;
+                        Console.Clear();
+                    }
+
+                    Console.Clear();
+                    Functions.Prompt("¿Desea modificar el modelo de la Notebook? Y/N");
+                    if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
+                    {
+                        Console.Clear();
+                        Functions.ShowTitle("Modificar Notebook");
+                        nChosenDevice.ReturnAvailableModels();
+
+                        Int32.TryParse(Console.ReadLine(), out response);
+                        while (response != 0 && response != 1 && response != 2)
+                        {
+                            Console.Clear();
+                            Functions.ShowTitle("Modificar Notebook");
+
+                            Functions.Error("El valor ingresado es inválido, por favor, provea un dato válido");
+                            Functions.Prompt("Seleccione el modelo de la Notebook");
+                            nChosenDevice.ReturnAvailableBrands();
+                            Int32.TryParse(Console.ReadLine(), out response);
+                        }
+                        nChosenDevice.Model = (NotebookModels)response;
+                        Console.Clear();
+                    }
+                    Console.Clear();
+                    Functions.ShowTitle("Modificar Notebook");
+                    Functions.Prompt("¿Desea modificar el número de serie de la Notebook? Y/N");
+                    if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
+                    {
+                        Console.Clear();
+                        Functions.ShowTitle("Modificar Notebook");
+                        Functions.Prompt("Ingrese el nuevo número de serie: ");
+                        stResponse = Console.ReadLine();
+                        while (stResponse.Length != 8)
+                        {
+                            Console.Clear();
+                            Functions.ShowTitle("Modificar Notebook");
+
+                            Functions.Error("El valor ingresado es inválido, por favor, provea un dato válido");
+                            Functions.Prompt("Ingrese el nuevo número de serie: ");
+                            nChosenDevice.ReturnAvailableBrands();
+                            stResponse = Console.ReadLine();
+                        }
+                        nChosenDevice.Serial = stResponse;
+                        Console.Clear();
+                    }
+                    if ()
+                    {
+
+                    }
+                }
+                else if (foundevices[response] is Desktop)
+                {
+                    dChosenDevice = (Desktop)foundevices[response];
+                }
+            }
+        }
+
+        private static bool NotePredicate(Notebook nb, string sn)
+        {
+            return nb.Serial == sn;
+        }
+
+        private static bool DeskPredicate(Desktop pc, string sn)
+        {
+            return pc.Serial == sn;
+        }
+
         /// <summary>
         /// previsualizar cada dispositivo de la lista mediante ToString
         /// </summary>
