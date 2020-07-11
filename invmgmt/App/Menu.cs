@@ -41,6 +41,8 @@ namespace invmgmt.App
                     break;
 
                 case 5:
+                    Engine.ShowDeleteDevice();
+                    Functions.PressAnyKey();
                     break;
 
                 case 0:
@@ -165,22 +167,6 @@ namespace invmgmt.App
                         break;
                 }
             } while (stay);
-        }
-
-        private static void ShowSubMenuLookDevices()
-        {
-            Functions.ShowTitle("Ver dispositivos");
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("  1. Ver todos");
-            Console.WriteLine("  2. Ver Notebooks");
-            Console.WriteLine("  3. Ver PC's");
-            Console.WriteLine("  4. Ver equipos sin usar");
-            Console.WriteLine("  0. Atrás");
-
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.Write("\nIngrese una opción: ");
-            Console.ResetColor();
         }
     }
 }

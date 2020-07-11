@@ -166,7 +166,7 @@ namespace invmgmt.App
 
             string sn;
             Functions.ShowTitle("Buscar por " + lookFor);
-            Functions.Prompt("Ingrese el "+lookFor+" parcial o completo del dispositivo a buscar");
+            Functions.Prompt("Ingrese el " + lookFor + " parcial o completo del dispositivo a buscar");
             sn = Console.ReadLine();
             Console.Clear();
 
@@ -275,7 +275,7 @@ namespace invmgmt.App
                         nb.ReturnAvailableBrands();
                         Int32.TryParse(Console.ReadLine(), out selection);
                     }
-                    nb.Brand = (NotebookBrands) selection;
+                    nb.Brand = (NotebookBrands)selection;
                     Console.Clear();
 
                     Functions.ShowTitle("Cargar Notebook");
@@ -293,7 +293,7 @@ namespace invmgmt.App
                         Int32.TryParse(Console.ReadLine(), out selection);
                     }
                     nb.Model = (NotebookModels)selection;
-                    
+
                     Console.Clear();
                     Functions.ShowTitle("Cargar Notebook");
                     Functions.Prompt("Introduzca el número de serie de la Notebook");
@@ -316,7 +316,7 @@ namespace invmgmt.App
                     Functions.Success("Notebook cargada satisfactoriamente");
                     break;
 
-                    case 2:
+                case 2:
                     Desktop dp = new Desktop();
                     Console.Clear();
                     Functions.ShowTitle("Cargar PC");
@@ -382,7 +382,7 @@ namespace invmgmt.App
             List<IDevices> foundevices = new List<IDevices>();
 
             int count = 0;
-            int response;
+            int response = -1;
             string stResponse = "";
             int devicePos;
             Desktop dChosenDevice;
@@ -392,42 +392,61 @@ namespace invmgmt.App
             Functions.PressAnyKey();
             Console.Clear();
 
-            if (foundevices.Count() == 0)
+            if (foundevices.Count() <= 0)
             {
                 Functions.Error("No se encontró ningún dispositivo, y por lo tanto no hay nada que modificar");
             }
             else
             {
-                Functions.ShowTitle("Modificar dispositivo");
-                Functions.Prompt("Seleccione el dispositivo a modificar");
-
-                foreach (Notebook nb in foundevices.OfType<Notebook>())
+                if (foundevices.Count() == 1)
                 {
-                    Console.WriteLine($"{devicesList.FindIndex(x => x == nb)}. {nb.Brand} {nb.Model} {nb.Serial}");
-                    
+                    Functions.ShowTitle("Modificar dispositivo");
+                    Functions.Prompt("El siguiente dispositivo será modificado");
+
+                    foreach (Notebook nb in foundevices.OfType<Notebook>())
+                    {
+                        Console.WriteLine($"{nb.Brand} {nb.Model} {nb.Serial}");
+                    }
+                    foreach (Desktop pc in foundevices.OfType<Desktop>())
+                    {
+                        Console.WriteLine($"{pc.Brand} {pc.Model} {pc.Serial}");
+                    }
+
+                    response = devicesList.FindIndex(x => x == foundevices[0]);
                 }
-
-                foreach (Desktop pc in foundevices.OfType<Desktop>())
+                else
                 {
-                    Console.WriteLine($"{devicesList.FindIndex(x => x == pc)}. {pc.Brand} {pc.Model} {pc.Serial}");
-                }
-
-                Int32.TryParse(Console.ReadLine(), out response);
-                while (response < 1 && response > count + 1)
-                {
-                    Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
-
+                    Functions.ShowTitle("Modificar dispositivo");
                     Functions.Prompt("Seleccione el dispositivo a modificar");
-                    
+
+                    foreach (Notebook nb in foundevices.OfType<Notebook>())
+                    {
+                        Console.WriteLine($"{devicesList.FindIndex(x => x == nb)}. {nb.Brand} {nb.Model} {nb.Serial}");
+                    }
+
+                    foreach (Desktop pc in foundevices.OfType<Desktop>())
+                    {
+                        Console.WriteLine($"{devicesList.FindIndex(x => x == pc)}. {pc.Brand} {pc.Model} {pc.Serial}");
+                    }
 
                     Int32.TryParse(Console.ReadLine(), out response);
+                    while (response < 1 && response > count + 1)
+                    {
+                        Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
+
+                        Functions.Prompt("Seleccione el dispositivo a modificar");
+
+
+                        Int32.TryParse(Console.ReadLine(), out response);
+                    }
+
                 }
 
                 devicePos = response;
-            
-                if (devicesList[devicePos] is Notebook)
+
+                if (devicesList[devicePos] is Notebook notebook && devicePos >= 0)
                 {
-                    nChosenDevice = (Notebook) devicesList[devicePos];
+                    nChosenDevice = notebook;
 
                     Console.Clear();
                     Functions.Prompt("¿Desea modificar la marca de la Notebook? Y/N");
@@ -503,9 +522,9 @@ namespace invmgmt.App
 
                     Functions.Success("Dispositivo modificado satisfactoriamente");
                 }
-                if (devicesList[devicePos] is Desktop)
+                if (devicesList[devicePos] is Desktop desktop && devicePos >= 0)
                 {
-                    dChosenDevice = (Desktop)devicesList[devicePos];
+                    dChosenDevice = desktop;
 
                     Console.Clear();
                     Functions.Prompt("¿Desea modificar la marca de la PC? Y/N");
@@ -586,23 +605,70 @@ namespace invmgmt.App
 
         public static void ShowDeleteDevice()
         {
+            List<IDevices> foundevices = new List<IDevices>();
 
-        }
+            int count = 0;
+            int response = -1;
+            int devicePos;
 
-        /// <summary>
-        /// previsualizar cada dispositivo de la lista mediante ToString
-        /// </summary>
-        public static void DebugDevices()
-        {
-            foreach (Notebook note in devicesList.OfType<Notebook>())
+            foundevices = LookForDevices("Número de serie");
+            Functions.PressAnyKey();
+            Console.Clear();
+
+            if (foundevices.Count() <= 0)
             {
-                Console.WriteLine(note);
-                Console.WriteLine(note.User);
+                Functions.Error("No se encontró ningún dispositivo, y por lo tanto no hay nada que eliminar");
             }
-            foreach (Desktop desk in devicesList.OfType<Desktop>())
+            else
             {
-                Console.WriteLine(desk);
-                Console.WriteLine(desk.User);
+                if (foundevices.Count() == 1)
+                {
+                    Functions.ShowTitle("Eliminar dispositivo");
+                    Functions.Prompt("El siguiente dispositivo será elimindo");
+
+                    foreach (Notebook nb in foundevices.OfType<Notebook>())
+                    {
+                        Console.WriteLine($"{nb.Brand} {nb.Model} {nb.Serial}");
+                    }
+                    foreach (Desktop pc in foundevices.OfType<Desktop>())
+                    {
+                        Console.WriteLine($"{pc.Brand} {pc.Model} {pc.Serial}");
+                    }
+
+                    response = devicesList.FindIndex(x => x == foundevices[0]);
+                }
+                else
+                {
+                    Functions.ShowTitle("Eliminar dispositivo");
+                    Functions.Prompt("Seleccione el dispositivo a eliminar");
+
+                    foreach (Notebook nb in foundevices.OfType<Notebook>())
+                    {
+                        Console.WriteLine($"{devicesList.FindIndex(x => x == nb)}. {nb.Brand} {nb.Model} {nb.Serial}");
+                    }
+
+                    foreach (Desktop pc in foundevices.OfType<Desktop>())
+                    {
+                        Console.WriteLine($"{devicesList.FindIndex(x => x == pc)}. {pc.Brand} {pc.Model} {pc.Serial}");
+                    }
+
+                    Int32.TryParse(Console.ReadLine(), out response);
+                    while (response < 1 && response > count + 1)
+                    {
+                        Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
+
+                        Functions.Prompt("Seleccione el dispositivo a modificar");
+
+
+                        Int32.TryParse(Console.ReadLine(), out response);
+                    }
+
+                }
+
+                devicePos = response;
+
+                devicesList.Remove(devicesList.ElementAt(devicePos));
+                Functions.Success("Dispositivo eliminado satisfactoriamente");
             }
         }
     }
