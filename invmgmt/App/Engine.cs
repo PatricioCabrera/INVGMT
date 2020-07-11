@@ -168,6 +168,14 @@ namespace invmgmt.App
             Functions.ShowTitle("Buscar por " + lookFor);
             Functions.Prompt("Ingrese el " + lookFor + " parcial o completo del dispositivo a buscar");
             sn = Console.ReadLine();
+
+            while (sn.Length < 1)
+            {
+                Functions.Error("Debe ingresar al menos un caracter");
+                Functions.Prompt("Ingrese el " + lookFor + " parcial o completo del dispositivo a buscar");
+                sn = Console.ReadLine();
+            }
+
             Console.Clear();
 
             if (devicesList.OfType<Notebook>().FirstOrDefault() != null)
@@ -413,6 +421,8 @@ namespace invmgmt.App
                     }
 
                     response = devicesList.FindIndex(x => x == foundevices[0]);
+
+                    Functions.PressAnyKey();
                 }
                 else
                 {
@@ -430,7 +440,7 @@ namespace invmgmt.App
                     }
 
                     Int32.TryParse(Console.ReadLine(), out response);
-                    while (response < 1 && response > count + 1)
+                    while (response < 1 || response > devicesList.Count())
                     {
                         Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
 
@@ -624,7 +634,7 @@ namespace invmgmt.App
                 if (foundevices.Count() == 1)
                 {
                     Functions.ShowTitle("Eliminar dispositivo");
-                    Functions.Prompt("El siguiente dispositivo será elimindo");
+                    Functions.Prompt("El siguiente dispositivo será eliminado");
 
                     foreach (Notebook nb in foundevices.OfType<Notebook>())
                     {
@@ -636,6 +646,8 @@ namespace invmgmt.App
                     }
 
                     response = devicesList.FindIndex(x => x == foundevices[0]);
+
+                    Functions.PressAnyKey();
                 }
                 else
                 {
@@ -653,7 +665,7 @@ namespace invmgmt.App
                     }
 
                     Int32.TryParse(Console.ReadLine(), out response);
-                    while (response < 1 && response > count + 1)
+                    while (response < 1 || response > devicesList.Count())
                     {
                         Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
 
@@ -668,6 +680,9 @@ namespace invmgmt.App
                 devicePos = response;
 
                 devicesList.Remove(devicesList.ElementAt(devicePos));
+                Console.Clear();
+                Functions.ShowTitle("Eliminar dispositivo");
+
                 Functions.Success("Dispositivo eliminado satisfactoriamente");
             }
         }

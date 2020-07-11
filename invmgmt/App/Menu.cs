@@ -46,8 +46,16 @@ namespace invmgmt.App
                     break;
 
                 case 0:
-                    Functions.TurnOFF();
-                    stay = false;
+                    Functions.Prompt("¿Desea salir del sistema? Y/N");
+                    if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
+                    {
+                        Functions.TurnOFF();
+                        stay = false;
+                    }
+                    else
+                    {
+                        Functions.PressAnyKey();
+                    }
                     break;
             }
 

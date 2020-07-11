@@ -12,3 +12,10 @@ C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.csprojAssemblyRefer
 C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.csproj.CoreCompileInputs.cache
 C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.exe
 C:\Users\User\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.pdb
+C:\Users\Patricio\source\repos\INVMGMT\invmgmt\bin\Debug\invmgmt.exe.config
+C:\Users\Patricio\source\repos\INVMGMT\invmgmt\bin\Debug\invmgmt.exe
+C:\Users\Patricio\source\repos\INVMGMT\invmgmt\bin\Debug\invmgmt.pdb
+C:\Users\Patricio\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.csprojAssemblyReference.cache
+C:\Users\Patricio\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.csproj.CoreCompileInputs.cache
+C:\Users\Patricio\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.exe
+C:\Users\Patricio\source\repos\INVMGMT\invmgmt\obj\Debug\invmgmt.pdb
