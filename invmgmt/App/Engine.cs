@@ -213,7 +213,7 @@ namespace invmgmt.App
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.BackgroundColor = ConsoleColor.Black;
 
-                        Console.Write("| {0, -10}  ", "Notebook");
+                        Console.Write("| {0, -10}  ", "Escritorio");
                         Console.Write("| {0, -8}  ", pc.Brand);
                         Console.Write("| {0, -11}  ", pc.Model);
                         Console.Write("| {0, -20} ", pc.Serial);
@@ -315,7 +315,8 @@ namespace invmgmt.App
                     Console.WriteLine();
                     Functions.Success("Notebook cargada satisfactoriamente");
                     break;
-                case 2:
+
+                    case 2:
                     Desktop dp = new Desktop();
                     Console.Clear();
                     Functions.ShowTitle("Cargar PC");
@@ -379,9 +380,8 @@ namespace invmgmt.App
         public static void ShowModifyDevice()
         {
             List<IDevices> foundevices = new List<IDevices>();
-            List<Notebook> notebookFoundevices = new List<Notebook>();
-            List<Desktop> desktopFoundevices = new List<Desktop>();
-            int posCount = 0;
+
+            int count = 0;
             int response;
             string stResponse = "";
             int devicePos;
@@ -400,21 +400,20 @@ namespace invmgmt.App
             {
                 Functions.ShowTitle("Modificar dispositivo");
                 Functions.Prompt("Seleccione el dispositivo a modificar");
+
                 foreach (Notebook nb in foundevices.OfType<Notebook>())
                 {
-                    Console.WriteLine($"{posCount + 1}. {nb.Brand} {nb.Model} {nb.Serial}");
-                    posCount++;
-                    notebookFoundevices.Add(nb);
+                    Console.WriteLine($"{devicesList.FindIndex(x => x == nb)}. {nb.Brand} {nb.Model} {nb.Serial}");
+                    
                 }
+
                 foreach (Desktop pc in foundevices.OfType<Desktop>())
                 {
-                    Console.WriteLine($"{posCount + 1}. {pc.Brand} {pc.Model} {pc.Serial}");
-                    posCount++;
-                    desktopFoundevices.Add(pc);
+                    Console.WriteLine($"{devicesList.FindIndex(x => x == pc)}. {pc.Brand} {pc.Model} {pc.Serial}");
                 }
 
                 Int32.TryParse(Console.ReadLine(), out response);
-                while (response < 1 && response > posCount + 1)
+                while (response < 1 && response > count + 1)
                 {
                     Functions.Error("La posición seleccionada no existe, ingrese un dato válido");
 
@@ -423,14 +422,16 @@ namespace invmgmt.App
 
                     Int32.TryParse(Console.ReadLine(), out response);
                 }
-                response -= 1;
+
                 devicePos = response;
             
-                if (foundevices[response] is Notebook)
+                if (devicesList[devicePos] is Notebook)
                 {
-                    nChosenDevice = (Notebook) foundevices[response];
+                    nChosenDevice = (Notebook) devicesList[devicePos];
+
                     Console.Clear();
                     Functions.Prompt("¿Desea modificar la marca de la Notebook? Y/N");
+
                     if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
                     {
                         Console.Clear();
@@ -475,6 +476,7 @@ namespace invmgmt.App
                         Console.Clear();
                     }
                     Console.Clear();
+
                     Functions.ShowTitle("Modificar Notebook");
                     Functions.Prompt("¿Desea modificar el número de serie de la Notebook? Y/N");
                     if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
@@ -483,6 +485,7 @@ namespace invmgmt.App
                         Functions.ShowTitle("Modificar Notebook");
                         Functions.Prompt("Ingrese el nuevo número de serie: ");
                         stResponse = Console.ReadLine();
+
                         while (stResponse.Length != 8)
                         {
                             Console.Clear();
@@ -490,32 +493,100 @@ namespace invmgmt.App
 
                             Functions.Error("El valor ingresado es inválido, por favor, provea un dato válido");
                             Functions.Prompt("Ingrese el nuevo número de serie: ");
-                            nChosenDevice.ReturnAvailableBrands();
                             stResponse = Console.ReadLine();
                         }
                         nChosenDevice.Serial = stResponse;
                         Console.Clear();
                     }
-                    if ()
-                    {
 
-                    }
+                    devicesList[devicePos] = nChosenDevice;
+
+                    Functions.Success("Dispositivo modificado satisfactoriamente");
                 }
-                else if (foundevices[response] is Desktop)
+                if (devicesList[devicePos] is Desktop)
                 {
-                    dChosenDevice = (Desktop)foundevices[response];
+                    dChosenDevice = (Desktop)devicesList[devicePos];
+
+                    Console.Clear();
+                    Functions.Prompt("¿Desea modificar la marca de la PC? Y/N");
+
+                    if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
+                    {
+                        Console.Clear();
+                        Functions.ShowTitle("Modificar PC");
+                        dChosenDevice.ReturnAvailableBrands();
+
+                        Int32.TryParse(Console.ReadLine(), out response);
+                        while (response != 0 && response != 1 && response != 2)
+                        {
+                            Console.Clear();
+                            Functions.ShowTitle("Modificar PC");
+
+                            Functions.Error("El valor ingresado es inválido, por favor, provea un dato válido");
+                            Functions.Prompt("Seleccione la marca de la PC");
+                            dChosenDevice.ReturnAvailableBrands();
+                            Int32.TryParse(Console.ReadLine(), out response);
+                        }
+                        dChosenDevice.Brand = (DesktopBrands)response;
+                        Console.Clear();
+                    }
+
+                    Console.Clear();
+                    Functions.Prompt("¿Desea modificar el modelo de la PC? Y/N");
+                    if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
+                    {
+                        Console.Clear();
+                        Functions.ShowTitle("Modificar PC");
+                        dChosenDevice.ReturnAvailableModels();
+
+                        Int32.TryParse(Console.ReadLine(), out response);
+                        while (response != 0 && response != 1 && response != 2)
+                        {
+                            Console.Clear();
+                            Functions.ShowTitle("Modificar PC");
+
+                            Functions.Error("El valor ingresado es inválido, por favor, provea un dato válido");
+                            Functions.Prompt("Seleccione el modelo de la PC");
+                            dChosenDevice.ReturnAvailableBrands();
+                            Int32.TryParse(Console.ReadLine(), out response);
+                        }
+                        dChosenDevice.Model = (DesktopModels)response;
+                        Console.Clear();
+                    }
+                    Console.Clear();
+
+                    Functions.ShowTitle("Modificar PC");
+                    Functions.Prompt("¿Desea modificar el número de serie de la PC? Y/N");
+                    if (Functions.ValidateConfirmation(Console.ReadLine()) == true)
+                    {
+                        Console.Clear();
+                        Functions.ShowTitle("Modificar PC");
+                        Functions.Prompt("Ingrese el nuevo número de serie: ");
+                        stResponse = Console.ReadLine();
+
+                        while (stResponse.Length != 8)
+                        {
+                            Console.Clear();
+                            Functions.ShowTitle("Modificar PC");
+
+                            Functions.Error("El valor ingresado es inválido, por favor, provea un dato válido");
+                            Functions.Prompt("Ingrese el nuevo número de serie: ");
+                            stResponse = Console.ReadLine();
+                        }
+                        dChosenDevice.Serial = stResponse;
+                        Console.Clear();
+                    }
+
+                    devicesList[devicePos] = dChosenDevice;
+
+                    Functions.Success("Dispositivo modificado satisfactoriamente");
                 }
             }
         }
 
-        private static bool NotePredicate(Notebook nb, string sn)
+        public static void ShowDeleteDevice()
         {
-            return nb.Serial == sn;
-        }
 
-        private static bool DeskPredicate(Desktop pc, string sn)
-        {
-            return pc.Serial == sn;
         }
 
         /// <summary>
